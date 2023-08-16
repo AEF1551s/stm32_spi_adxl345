@@ -17,12 +17,6 @@
 #endif
 
 // Pin declaration
-/******SPI1 pins******/
-extern pin_struct_TypeDef nss_pin;
-extern pin_struct_TypeDef sck_pin;
-extern pin_struct_TypeDef miso_pin;
-extern pin_struct_TypeDef mosi_pin;
-/********************/
 
 // Functions
 void clock_init()
