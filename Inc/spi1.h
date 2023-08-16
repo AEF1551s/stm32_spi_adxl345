@@ -13,15 +13,6 @@ pin_struct_TypeDef mosi_pin;
 
 void spi1_pin_init()
 {
-    // GPIOA clock enable for PA4 - PA7 SPI pins
-    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
-
-    // SPI1 clock enable
-    SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
-}
-
-void spi1_clock_init()
-{
     /******SPI1 pins******/
     nss_pin = pin_setup(GPIOA, PIN4, ALTERNATE);
     sck_pin = pin_setup(GPIOA, PIN5, ALTERNATE);
@@ -34,6 +25,15 @@ void spi1_clock_init()
     SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL6_0 | GPIO_AFRL_AFRL6_3);
     SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL7_0 | GPIO_AFRL_AFRL7_3);
     /*********************/
+}
+
+void spi1_clock_init()
+{
+    // GPIOA clock enable for PA4 - PA7 SPI pins
+    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
+
+    // SPI1 clock enable
+    SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
 }
 
 
