@@ -3,6 +3,8 @@
 
 #include <stm32f410rx.h>
 #include <stm32f4xx.h>
+#include <user_types.h>
+#include <user_functions.h>
 
 pin_struct_TypeDef nss_pin;
 pin_struct_TypeDef sck_pin;
@@ -33,5 +35,6 @@ void spi1_clock_init()
     SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL7_0 | GPIO_AFRL_AFRL7_3);
     /*********************/
 }
+
 
 #endif // SPI1_H
