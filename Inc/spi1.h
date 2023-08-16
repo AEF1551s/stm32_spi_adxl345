@@ -36,5 +36,51 @@ void spi1_clock_init()
     SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
 }
 
+void spi1_init()
+{
 
+    // Set baud-rate control to f(pckl)/4 = 4MHz; 0b001
+    SET_BIT(SPI1->CR1, SPI_CR1_BR_0);
+    // Set CPOL and CPHA to 1 (from datasheet)
+    SET_BIT(SPI1->CR1, SPI_CR1_CPOL);
+    SET_BIT(SPI1->CR1, SPI_CR1_CPHA);
+    // Set to full-duplex mode
+    CLEAR_BIT(SPI1->CR1, SPI_CR1_RXONLY);
+    // Set MSB first
+    CLEAR_BIT(SPI1->CR1, SPI_CR1_LSBFIRST);
+    // Set SPI to be in master mode
+    SET_BIT(SPI1->CR1, SPI_CR1_MSTR);
+    // Set data frame to 8 bit mode
+    CLEAR_BIT(SPI1->CR1, SPI_CR1_DFF);
+    // Set to software(internal) slave select
+    SET_BIT(SPI1->CR1, SPI_CR1_SSM);
+    // Set slave select
+    SET_BIT(SPI1->CR1, SPI_CR1_SSI);
+    // Enable SPI peripheral
+    SET_BIT(SPI1->CR1, SPI_CR1_SPE);
+}
+
+void spi1_transmit(uint8_t *data, uint32_t size)
+{
+    volatile uint8_t temp;
+    for (uint32_t i = 0; i < size; i++)
+    {
+        // Wait until TXE is set
+        while (!READ_BIT(SPI1->SR, SPI_SR_TXE))
+            ;
+
+        // Write to the data register
+        WRITE_REG(SPI1->DR, data[i]);
+    }
+    // Wait unitl TXE is set
+    while (!READ_BIT(SPI1->SR, SPI_SR_TXE))
+        ;
+    // Wait for BUSY to reset
+    while (READ_BIT(SPI1->SR, SPI_SR_BSY))
+        ;
+
+    // Clear OVR overrun flag
+    temp = SPI1->DR;
+    temp = SPI1->SR;
+}
 #endif // SPI1_H
