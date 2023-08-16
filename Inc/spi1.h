@@ -62,8 +62,9 @@ void spi1_init()
 
 void spi1_transmit(uint8_t *data, uint32_t size)
 {
+    uint32_t i = 0;
     volatile uint8_t temp;
-    for (uint32_t i = 0; i < size; i++)
+    while (i < size)
     {
         // Wait until TXE is set
         while (!READ_BIT(SPI1->SR, SPI_SR_TXE))
@@ -71,6 +72,8 @@ void spi1_transmit(uint8_t *data, uint32_t size)
 
         // Write to the data register
         WRITE_REG(SPI1->DR, data[i]);
+
+        i++;
     }
     // Wait unitl TXE is set
     while (!READ_BIT(SPI1->SR, SPI_SR_TXE))
@@ -82,5 +85,33 @@ void spi1_transmit(uint8_t *data, uint32_t size)
     // Clear OVR overrun flag
     temp = SPI1->DR;
     temp = SPI1->SR;
+}
+
+void spi1_receive(uint8_t *data, uint32_t size)
+{
+    while (size)
+    {
+        // Send dummy data
+        SPI1->DR = 0U;
+
+        // Wait unitl RXNE is set
+        while (!READ_BIT(SPI1->SR, SPI_SR_TXE))
+            ;
+
+        // Read data register
+        *data = SPI1->DR;
+        data++;
+        size--;
+    }
+}
+
+void cs_enable()
+{
+    SET_BIT(SPI1->CR1, SPI_CR1_SSI);
+}
+
+void cs_diable()
+{
+    CLEAR_BIT(SPI1->CR1, SPI_CR1_SSI);
 }
 #endif // SPI1_H
