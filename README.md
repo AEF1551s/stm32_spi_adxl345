@@ -28,7 +28,10 @@ Use CubeIDE to build and flash the NUCLEO development board.
 # Dislcaimer  
 The values for x, y, z return as 0. Still to fix, or possible ADXL345 module is broken, based on other people experience.
 
+<<<<<<< HEAD
 # Dislcaimer  
 The values for x, y, z return as 0. Data is being read, and receive and transmit flags are being set. Except the values read are all 0. 
 The same module with I2C works as expected.  
 Further analysis of code and ADXL345 SPI communication mode is nessecery.  
+=======
+>>>>>>> b1383f4a0f0af5aec4de2cc710982742c3c5babe
