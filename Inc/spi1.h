@@ -36,7 +36,7 @@ void spi1_clock_init()
     SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
 }
 
-void spi1_init()
+void spi1_config()
 {
 
     // Set baud-rate control to f(pckl)/4 = 4MHz; 0b001
