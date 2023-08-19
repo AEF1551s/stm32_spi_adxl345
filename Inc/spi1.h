@@ -11,7 +11,16 @@ pin_struct_TypeDef sck_pin;
 pin_struct_TypeDef miso_pin;
 pin_struct_TypeDef mosi_pin;
 
-void spi1_pin_init()
+static void spi1_clock_init()
+{
+    // GPIOA clock enable for PA4 - PA7 SPI pins
+    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
+
+    // SPI1 clock enable
+    SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
+}
+
+static void spi1_pin_init()
 {
     /******SPI1 pins******/
     nss_pin = pin_setup(GPIOA, PIN4, ALTERNATE);
@@ -27,16 +36,7 @@ void spi1_pin_init()
     /*********************/
 }
 
-void spi1_clock_init()
-{
-    // GPIOA clock enable for PA4 - PA7 SPI pins
-    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOAEN);
-
-    // SPI1 clock enable
-    SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
-}
-
-void spi1_config()
+static void spi1_config()
 {
 
     // Set baud-rate control to f(pckl)/4 = 4MHz; 0b001
@@ -58,6 +58,13 @@ void spi1_config()
     SET_BIT(SPI1->CR1, SPI_CR1_SSI);
     // Enable SPI peripheral
     SET_BIT(SPI1->CR1, SPI_CR1_SPE);
+}
+
+void spi1_init()
+{
+    spi1_clock_init();
+    spi1_pin_init();
+    spi1_config();
 }
 
 void spi1_transmit(uint8_t *data, uint32_t size)
