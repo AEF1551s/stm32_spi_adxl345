@@ -23,4 +23,8 @@ Contains user defined source files.
 * CubeIDE installed. See ` https://www.st.com/en/development-tools/stm32cubeide.html`.  
 &nbsp;  
 # Build  
-Use CubeIDE to build and flash the NUCLEO development board.
+Use CubeIDE to build and flash the NUCLEO development board.  
+
+# Dislcaimer  
+The values for x, y, z return as 0. Still to fix, or possible ADXL345 module is broken, based on other people experience.
+
