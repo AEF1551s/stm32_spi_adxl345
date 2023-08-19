@@ -7,6 +7,7 @@
 #include <user_types.h>
 #include <user_functions.h>
 #include <spi1.h>
+#include <adxl345_spi.h>
 
 // DEBUG
 #include <debug_functons.h>
@@ -21,20 +22,21 @@
 // Functions
 void clock_init()
 {
-  spi1_clock_init();
 }
 void pin_init()
 {
-  spi1_pin_init();
 }
 
 int main(void)
 {
   clock_init();
   pin_init();
-
+  adxl_init();
   /* Loop forever */
+  uint8_t rxdata[6];
+
   while (true)
   {
+    adxl_read(0x32U, rxdata);
   }
 }
