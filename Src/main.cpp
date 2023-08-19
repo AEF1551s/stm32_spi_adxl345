@@ -34,9 +34,12 @@ int main(void)
   adxl_init();
   /* Loop forever */
   uint8_t rxdata[6];
-
+  uint16_t x, y, z;
   while (true)
   {
     adxl_read(0x32U, rxdata);
+    x = ((rxdata[1] << 8) | rxdata[0]);
+    y = ((rxdata[3] << 8) | rxdata[2]);
+    z = ((rxdata[5] << 8) | rxdata[4]);
   }
 }
