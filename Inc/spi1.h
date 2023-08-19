@@ -42,6 +42,10 @@ static void spi1_config()
 
     // Set baud-rate control to f(pckl)/4 = 4MHz; 0b001
     SET_BIT(SPI1->CR1, SPI_CR1_BR_0);
+
+    SPI1->CR1 &=~(1U<<4);
+	SPI1->CR1 &=~(1U<<5);
+    
     // Set CPOL and CPHA to 1 (from datasheet)
     SET_BIT(SPI1->CR1, SPI_CR1_CPOL);
     SET_BIT(SPI1->CR1, SPI_CR1_CPHA);
@@ -100,10 +104,10 @@ void spi1_receive(uint8_t *data, uint32_t size)
     while (size)
     {
         // Send dummy data
-        SPI1->DR = 0U;
+        SPI1->DR = 0;
 
         // Wait unitl RXNE is set
-        while (!READ_BIT(SPI1->SR, SPI_SR_TXE))
+        while (!READ_BIT(SPI1->SR, SPI_SR_RXNE))
             ;
 
         // Read data register
@@ -111,6 +115,7 @@ void spi1_receive(uint8_t *data, uint32_t size)
         data++;
         size--;
     }
+
 }
 
 void cs_enable()
