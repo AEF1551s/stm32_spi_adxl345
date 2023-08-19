@@ -6,7 +6,8 @@
 #include <user_types.h>
 #include <user_functions.h>
 
-pin_struct_TypeDef nss_pin;
+// pin_struct_TypeDef nss_pin;
+pin_struct_TypeDef cs_pin;
 pin_struct_TypeDef sck_pin;
 pin_struct_TypeDef miso_pin;
 pin_struct_TypeDef mosi_pin;
@@ -23,13 +24,13 @@ static void spi1_clock_init()
 static void spi1_pin_init()
 {
     /******SPI1 pins******/
-    nss_pin = pin_setup(GPIOA, PIN4, ALTERNATE);
+    cs_pin = pin_setup(GPIOA, PIN9, OUTPUT);
     sck_pin = pin_setup(GPIOA, PIN5, ALTERNATE);
     miso_pin = pin_setup(GPIOA, PIN6, ALTERNATE);
     mosi_pin = pin_setup(GPIOA, PIN7, ALTERNATE);
 
     // Set AF mode
-    SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL4_0 | GPIO_AFRL_AFRL4_3);
+    // SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL4_0 | GPIO_AFRL_AFRL4_3);
     SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL5_0 | GPIO_AFRL_AFRL5_3);
     SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL6_0 | GPIO_AFRL_AFRL6_3);
     SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL7_0 | GPIO_AFRL_AFRL7_3);
@@ -106,7 +107,7 @@ void spi1_receive(uint8_t *data, uint32_t size)
             ;
 
         // Read data register
-        *data = SPI1->DR;
+        *data = (SPI1->DR);
         data++;
         size--;
     }
@@ -114,11 +115,15 @@ void spi1_receive(uint8_t *data, uint32_t size)
 
 void cs_enable()
 {
-    SET_BIT(SPI1->CR1, SPI_CR1_SSI);
+    // SET_BIT(SPI1->CR1, SPI_CR1_SSI);
+    GPIOA->ODR &= ~(1U << 9);
+    // digital_write(cs_pin, LOW);
 }
 
-void cs_diable()
+void cs_disable()
 {
-    CLEAR_BIT(SPI1->CR1, SPI_CR1_SSI);
+    // CLEAR_BIT(SPI1->CR1, SPI_CR1_SSI);
+    GPIOA->ODR |= (1U << 9);
+    // digital_write(cs_pin, HIGH);
 }
 #endif // SPI1_H

@@ -63,9 +63,9 @@ void adxl_write(uint8_t reg, uint8_t value)
     // Pull CS line low to enable slave
     cs_enable();
     // Transmit data and adress
-    spi1_transmit(data, sizeof(data));
+    spi1_transmit(data, 2);
     // Pull CS line high, to disable slave
-    cs_diable();
+    cs_disable();
 }
 
 void adxl_init()
@@ -95,7 +95,7 @@ void adxl_read(uint8_t reg, uint8_t *rxdata) // Reads 6 data adresses starting f
     // Read 6 bytes
     spi1_receive(rxdata, 6);
     // Pull CS line high, to disable slave
-    cs_diable();
+    cs_disable();
 }
 
 #endif // ADXL345_SPI
