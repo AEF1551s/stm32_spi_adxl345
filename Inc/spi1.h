@@ -25,15 +25,15 @@ static void spi1_pin_init()
 {
     /******SPI1 pins******/
     cs_pin = pin_setup(GPIOA, PIN9, OUTPUT);
-    sck_pin = pin_setup(GPIOA, PIN5, ALTERNATE);
-    miso_pin = pin_setup(GPIOA, PIN6, ALTERNATE);
-    mosi_pin = pin_setup(GPIOA, PIN7, ALTERNATE);
+    sck_pin = pin_setup(GPIOB, PIN3, ALTERNATE);
+    miso_pin = pin_setup(GPIOB, PIN4, ALTERNATE);
+    mosi_pin = pin_setup(GPIOB, PIN5, ALTERNATE);
 
     // Set AF mode
     // SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL4_0 | GPIO_AFRL_AFRL4_3);
-    SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL5_0 | GPIO_AFRL_AFRL5_3);
-    SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL6_0 | GPIO_AFRL_AFRL6_3);
-    SET_BIT(GPIOA->AFR[0], GPIO_AFRL_AFRL7_0 | GPIO_AFRL_AFRL7_3);
+    SET_BIT(GPIOB->AFR[0], GPIO_AFRL_AFRL3_0 | GPIO_AFRL_AFRL3_2);
+    SET_BIT(GPIOB->AFR[0], GPIO_AFRL_AFRL4_0 | GPIO_AFRL_AFRL4_2);
+    SET_BIT(GPIOB->AFR[0], GPIO_AFRL_AFRL5_0 | GPIO_AFRL_AFRL5_2);
     /*********************/
 }
 
